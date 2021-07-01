@@ -62,5 +62,4 @@ def parse_csv():
     with open (txt_destination,"w") as file1:
         file1.write(summary)
 
-
 parse_csv()   
