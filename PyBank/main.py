@@ -1,9 +1,10 @@
 import os
 import csv
+from datetime import date
 
 # list if the directory that the csv is located in
-csv_path = os.path.join("PyBank","Resources","budget_data.csv")
-
+csv_path = os.path.join("Resources","budget_data.csv")
+txt_destination = os.path.join("analysis",f"analysis_{date.today()}.txt")
 # Create a parser that loads the csv and gennerate a list
 
 # function for finding total profit / loss based on a list
@@ -60,7 +61,7 @@ def parse_csv():
             csv_list.append(row)
         summary = summary_table(csv_list)
     print (summary)
-    with open (os.path.join("PyBank","analysis","analysis.txt"),"w") as file1:
+    with open (txt_destination,"w") as file1:
         file1.write(summary)
 
 
