@@ -41,7 +41,6 @@ def summary_table(list):
     average_change = average_profit(month_change(list))
     gi_month, gd_month, greatest_increase, greatest_decrease = greatest_change(list)
     report = f'''
-
     Financial Analysis
     ----------------------------
     Total Months: {total_month}
@@ -49,7 +48,6 @@ def summary_table(list):
     Average Change: ${average_change}
     Greatest Increase in Profits: "{gi_month} ({greatest_increase})"
     Greatest Decrease in Profits: "{gd_month} ({greatest_decrease})"
-
     '''
     return report
 
@@ -65,12 +63,4 @@ def parse_csv():
         file1.write(summary)
 
 
-    
-    
-
-# save the csv list to a variable
-
-# Total number of month
-
-#print(summary_table(csv_list))
-print(parse_csv())
+parse_csv()   
