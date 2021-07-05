@@ -56,7 +56,6 @@ After generating the csv list, find the total number of month being accounted fo
 * Finding the total month accounted for.
   ```sh
   total_month = len(list)
-  Next i
   ```
 
 ### Finding the total net profit/loss
@@ -203,7 +202,6 @@ After generating the csvlist, find the total number of votes being accounted for
 * Finding the total votes accounted for.
   ```sh
   total_vote = len(list)
-  Next i
   ```
 
 ### Find information for each candidate
