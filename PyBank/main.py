@@ -7,7 +7,7 @@ from datetime import date
 # list if the directory that the csv is located in
 csv_path = os.path.join("Resources","budget_data.csv")
 # list the directory that the summary table text file will be generated in.
-txt_destination = os.path.join("analysis",f"analysis_{date.today()}.txt")
+txt_destination = os.path.join("Analysis",f"analysis_{date.today()}.txt")
 
 # load all the functions that would be used in our parser.
 # function for finding total profit / loss based on a list
@@ -65,7 +65,7 @@ def summary_table(list):
 
 
 # activationn function ----------------------------------------------
-def parse_csv():
+def main():
     #parse the csv given the path
     with open(csv_path) as file:
         csv_read = csv.reader(file)
@@ -81,4 +81,4 @@ def parse_csv():
     with open (txt_destination,"w") as file1:
         file1.write(summary)
 
-parse_csv() 
+main() 

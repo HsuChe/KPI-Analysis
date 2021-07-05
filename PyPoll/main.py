@@ -7,7 +7,7 @@ from datetime import date
 # list if the directory that the csv is located in
 poll_csvpath = os.path.join("Resources","election_data.csv")
 # list the directory that the summary table text file will be generated in.
-analysis_path = os.path.join("analysis",f"analysis_{date.today()}")
+analysis_path = os.path.join("Analysis",f"analysis_{date.today()}")
 
 # load all the functions that would be used in our parser.
 
