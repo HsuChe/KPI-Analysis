@@ -73,7 +73,6 @@ def analysis_gen(string, path):
 
 # activationn function ----------------------------------------------
 def main():
-
     with open(poll_csvpath) as csvfile:
         csvreader = csv.reader(csvfile, delimiter = ',')
         csvlist = []
