@@ -7,7 +7,7 @@ from datetime import date
 # list if the directory that the csv is located in
 csv_path = os.path.join("Resources","budget_data.csv")
 # list the directory that the summary table text file will be generated in.
-txt_destination = os.path.join("Analysis",f"analysis_{date.today()}.txt")
+analysis_path = os.path.join("Analysis",f"analysis_{date.today()}.txt")
 
 # load all the functions that would be used in our parser.
 # function for finding total profit / loss based on a list
@@ -63,6 +63,9 @@ def summary_table(list):
     # return the string
     return report
 
+def analysis_gen(string, path):
+    with open (path,"w") as file1:
+            file1.write(string)
 
 # activationn function ----------------------------------------------
 def main():
@@ -78,7 +81,7 @@ def main():
     # put summary table into the terminal
     print (summary)
     # generate a .txt file and write f' string into the text file.
-    with open (txt_destination,"w") as file1:
-        file1.write(summary)
+    analysis_gen(summary,analysis_path)
+    print("text file generation complete!")
 
 main() 
