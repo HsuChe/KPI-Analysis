@@ -18,103 +18,103 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-![hero image](https://github.com/HsuChe/VBA_challenge/blob/8c86f907f10c59b6e711a9ca5ea35a34658f35d4/Images/hero_image.jpg.jpg)
+![hero image](https://github.com/HsuChe/python-challenge/blob/f3e0d54ab0d2365f8a35dd1a83ef981b05c49644/Image/PyBank_Hero.jpg)
 
-There is nothing more important to successful investment than to explore key business indicators and gauge growth for stocks. In this homework we are going to create a summary table for stock specifically from 2014, 2015, and 2016.
+Month to month analysis is critical to making operating decisions. For this homework, we are going to generate commonly used business metrics based on the monthly financial information.
 
 Features of the dataset:
 * The dataset is divided primarily between three sheets for each of the years that are being analyzed, starting with 2014 and ending on 2016.
 * The following are columns provided by the dataset: 
-    * ticker name: **Name of the stock**
-    * date: **Date the data originates**
-    * opening price: **Price the stock opened for the date**
-    * highest price: **The highest price the stock achieve that day** 
-    * lowest price: **The lowest price the stock achieve that day**
-    * closing price: **The final price before the market closes for the day**
-    * trade volume: **The volume that the stock was traded for that day**
-* The dataset is organized in alphabetical order where the same ticker name are listed one after another. 
+    * Date: **The date that the information was generated**
+    * Profit/Loss: **The profit and loss from a month before**
+* The dataset is in the csv file format with delimiter of comma
 
-* Download Dataset click [HERE](https://github.com/HsuChe/VBA_challenge/blob/859645443db611a216dec442c8de9bc2721df457/Resources/Multiple_year_stock_data.xlsx)
+* Download Dataset click [HERE](https://github.com/HsuChe/python-challenge/blob/f3e0d54ab0d2365f8a35dd1a83ef981b05c49644/PyBank/Resources/budget_data.csv)
 
 The homework is interested generating a few specific items for the summary table.
 
-* The unique ticker names from the dataset
-* The price change year on year
-* The percentage price change year on year compared to opening price
-* The total traded volume for the ticker for a given year based on the sheets.
-
-## Special Notes: 
-
-* I will be using Range() over Cells() in my calculations because it is easier for me to label a column as shown on excel rather than counting the columns each time
-* I will be iterating up for the conditional because I can set less values to ClosingPrice/OpeningPrice/TickerName if it is done this way.
+* Total months accounted for in the dataset.
+* Aggregate change given the entire dataset.
+* Average change month to month.
+* Month with the greatest increase in profits.
+* Month with the greatest decrease in profits.
 
 <!-- GETTING STARTED -->
-## Obtaining list of unique ticker names and total volume traded.
+## Processing the csv and make it into a easier to use dataset.
 
-To generate total volume trade, we have to create a volume counter that iterates through each row. 
+Open the csv with csv.reader() and using a for loop to iterate through each row and adding them to a list.
 
-* For loop on column A
+* For loop to add to list
   ```sh
-  For i in 2 to LastRowA:
-    TotalVolume = TotalVolume + Range("G" & i)
+  csv_list = []
+  for row in csv_read:
+    csv_list.append(row)
+  ```
+
+After generating the csv list, find the total number of month being accounted for. To do this, we will find the index of the rows.
+
+* Finding the total month accounted for.
+  ```sh
+  total_month = len(list)
   Next i
   ```
 
-To generate unique names we iterated through each of the rows comparing the value of the current cell in column A with the next iteration, or index + 1. Also make sure that the loop starts at i = 2 as the first index is the header
+### Finding the total net profit/loss
 
-* For loop on column A
+To find the totla net profit / loss, we will be using a loop that will iterate through each row in the data list and add up all of the values from loss/profit column
+
+* Total Profit Function:
   ```sh
-  For i in 2 to LastRowA:
-    TotalVolume = TotalVolume + Range("G" & i)
-    If Range("A" & i) <> Range("A" & i + 1) Then
-        TickerName = Range("A" & i)
-  Next i
+  def total_profit(list):
+    net = 0
+    for month in range(1,len(list)):
+        net = net + int(list[month][1])
+    return net  
   ```
 
-### Prerequisites
+### Average month to month change.
 
-An important variable we need to define for the For loop is LastRowA, which will determine the last used cell in the column and set the range for our loop. The method I used is the following. 
-
-<a href="https://stackoverflow.com/questions/39470412/last-row-in-column-vba"><strong>Code Credit »</strong></a>
-
-* LastRowA
-  ```sh
-  LastRowA = Worksheet.Cells(Rows.Count, "A").End(xlUp).Row
-  ```
-
-We also need to generate the needed headers for the columns that our calculations will return to.
+Next we find the average change month to month. The difference between the months will be put into a list.
 
 * Headers for generated columns
   ```sh
-  Range("I1") = "<ticker>"
-  Range("J1") = "<yearly change>"
-  Range("K1") = "<percent change>"
-  Range("L1") = "<total volume>"
+  def month_change(list):
+    change_list = []
+    for month in range(1, len(list)-1):
+        current_price, next_price = int(list[month][1]), int(list[month + 1][1])
+        change = next_price - current_price
+        change_list.append(change)
+    return change_list
   ```
 
-## Obtaining features needed to calculate price change year on year.
+## Calculating the avearge change in profit / loss
 
-To calculate price change year on year, we would need the first opening price and last closing price for each ticker. YearlyChange = ClosingPrice - OpeningPrice
+The average change in profit / loss is the sum of the change list divided by the length of the change list. 
 
-When the conditional for unique ticker ID triggers, we can get the closing price from that index as well.
+* Avearge change in profit and losses month to month  
+    ```sh
+    def average_profit(change_list):
+            average_change = sum(change_list) / len(change_list)
+            average_change = round(average_change)
+        return average_change
+    ```
 
-* Obtain closing price from the index (i)
+## Calculating the greatest increase and decrease in profit / loss month to month
+
+The great increase and decrease is calculated by calculating the max and min of the change list and while referencing their index location to find the months that these changes happened. 
+
+* Finding the highest increase and decrease in profit / loss in the dataset.
   ```sh
-  ClosingPrice = Range("F" & i)
-  ```
-
-We can extract the opening price for the next unique ticker name by extracting the opening price of i + 1. Because we are extracting opening price for the next iteration of unique ticker name, we would have to declare the first instance of opening price outside of the for loop.
-
-* Obtaining Closing Price from our index
-  ```sh
-  Dim OpeningPrice as Double
-  OpeningPrice = Range("C1")
-
-  For i in 2 to LastRowA:
-    TotalVolume = TotalVolume + Range("G" & i)
-    If Range("A" & i) <> Range("A" & i + 1) Then
-        TickerName = Range("A" & i)
-  ...
+  def greatest_change(list):
+    change_list = month_change(list)
+    header_loc = 1
+    month_loc = 1
+    # find the highest and lowest monthly changes in the monnthly changes list
+    greatest_increase, greatest_decrease = max(change_list), min(change_list) 
+    # find the specific date that the highest and lowest monthly changes take place in.
+    gi_month = list[change_list.index(greatest_increase) + header_loc + month_loc][0]
+    gd_month = list[change_list.index(greatest_decrease) + header_loc + month_loc][0]
+    return gi_month, gd_month, greatest_increase, greatest_decrease
   ```
 
 The fact that our opening price will be extracted after the current iteration of unique value is calculated, we would have to calculate the price change year on year as well as the percentage change before updating a new opening price from the conditional.
@@ -124,176 +124,181 @@ The fact that our opening price will be extracted after the current iteration of
   YearlyChange = ClosingPrice - OpeningPrice
   ```
 
-## Error checking for Opening Price to calculate percentage change year on year.
-If yearly percent change uses an opening price that is 0, will draw an error for our calculation. We must set exceptions for when opening price is 0 on the first iteration of a unique ticker.
+## Generate the summary table as a string.
 
-To do this, we would need to insert two different error checkers: 
+We for variables for each of the information we calculated before and map them into a string. 
 
-The first error check is within the conditional when a new unique value is found and before the new opening price is updated. This error will only occur if an entire ticker name does not contain an opening price value from Jan 1 to Dec 31. 
-
-* If OpeningPrice is 0 through every iteration for a ticker, then YearlyPercent is 0
-  ``` sd
-  If OpeningPrice = 0 Then
-    YearlyPercent = 0
-  Else
-    YearlyPercent = YearlyChange / OpeningPrice
+* Mapping the calculated value into the string. 
+  ``` sh
+  def summary_table(list):
+    # define the variables that will be used inn the summary table f' stringn
+    total_month = len(list)
+    net = total_profit(list)
+    average_change = average_profit(month_change(list))
+    gi_month, gd_month, greatest_increase, greatest_decrease = greatest_change(list)
+    report = f'''
+    Financial Analysis
+    ----------------------------
+    Total Months: {total_month}
+    Total: {net}
+    Average Change: ${average_change}
+    Greatest Increase in Profits: "{gi_month} ({greatest_increase})"
+    Greatest Decrease in Profits: "{gd_month} ({greatest_decrease})"
+    '''
+    # return the string
+    return report
   ```
 
-The Second will be outside the for loop as error checking needs to happen on a per row basis and update opening price to the next none 0 value when it can.
+## Generating the text file and terminal message with the summary table.
+
+To generate the text file, we will be writing the string information into it.
 
 * Second error checking outside the conditional that triggers when unique value is found
   ```sh
-  If OpeningPrice = 0 Then
-    OpeningPrice = Range("C" & i)
+  def analysis_gen(string, path):
+    with open (path,"w") as file1:
+            file1.write(string)
   ```
 
-After the calculation is done, we can go ahead and update the opening price for the next unique value.
+## After everything is generated, we complete the PyBank portion of the assignment.
 
-* Extract Opening Price
+<br>
+<br>
+<br>
+
+<!-- ABOUT THE PROJECT -->
+## About The Project
+
+![hero image](https://github.com/HsuChe/python-challenge/blob/f3e0d54ab0d2365f8a35dd1a83ef981b05c49644/Image/PyPoll_Hero.jpg)
+
+Visualizing and processing voting data is how we can find our the winner and calculate critical descriptions through analyzing polling data. 
+
+Features of the dataset:
+* Voter ID: **The unique ID that each vote is identified by**
+* County: **Name of the county where the vote was casted**
+* Candidate: **Name of the candidate the vote was casted for**
+
+* Download Dataset click [HERE](https://github.com/HsuChe/python-challenge/blob/f3e0d54ab0d2365f8a35dd1a83ef981b05c49644/PyPoll/Resources/election_data.csv)
+
+The homework is interested generating a few specific items for the summary table.
+
+* Total of votes casted
+* Percentage of the total vote each candidate recieved
+* Winner of the election.
+
+<!-- GETTING STARTED -->
+## Processing the csv and make it into a easier to use dataset.
+
+Open the csv with csv.reader() and using a for loop to iterate through each row and adding them to a list.
+
+* For loop to add to list
   ```sh
-  OpeningPrice = Range("C" & i + 1)
+  csv_list = []
+  for row in csv_read:
+    csv_list.append(row)
   ```
 
-## Returning all values to the correct column
+After generating the csvlist, find the total number of votes being accounted for. To do this, we will find the index of the rows.
 
-We can now return the values we calculated from the if statement based on an index specifically designated  for our summary table.
-
-* Return Values to their rightful index in the summary table
+* Finding the total votes accounted for.
   ```sh
-  Range("I" & UniqueCounter) = TickerName
-  Range("J" & UniqueCounter) = YearlyChange
-  Range("K" & UniqueCounter) = YearlyPercent
-  Range("L" & UniqueCounter) = TotalVolume
-  ' format percent '
-  Range("K" & UniqueIndex).NumberFormat = "0.00%"
+  total_vote = len(list)
+  Next i
   ```
 
-After TotalVolume is returned to the right column, it needs to be resetted for the next unique value and we can update UniqueIndex to make sure the next update on our summary table is in the right cell.
+### Find information for each candidate
 
-```sh
-  TotalVolume = 0
-  UniqueIndex = UniqueIndex + 1
-```
+## Preprocessing information and putting them into a dictionary.
 
-## Color code positive change and negative percent change on the summary table.
+To find the specific information for each candidate, the first step is to find the list of unique candidates, to do this, we can generate a list and append each name into a list when a new iteration appears.
 
-The next step is to color code the positive yearly changes green and negative changes red.
+* Unique candidate function:
+  ```sh
+  def UniqueCandidate(datalist):
+    UniqueList = []
+    for vote in range(1, len(datalist)):
+        if datalist[vote][2] not in UniqueList:
+            UniqueList.append(datalist[vote][2])
+    return UniqueList
+  ```
 
-* The ColorIndex for Green is 4 and The ColorIndex for Red is 3
-``` sh
-  If YearlyPercent > 0 Then
-    Range("J" & UniqueIndex).Interior.ColorIndex = 4
-  Else
-    Range("J" & UniqueIndex).Interior.ColorIndex = 3
-  End If
-```
+### Finding out the amount of votes each candidate recieved.
 
-## Bonus Questions
+We can find out the amount of votes each candidate recieved based on unique candidate names.
 
-The bonus questions asked to find 3 additional calculations. These calculations are the ticker name of the greatest percent increase and the percentage value, the ticker name of the greatest percent decrease and the percentage value, and ticker name of the largest total traded volume in the year and the traded value.
+* Candidate vote counter:
+  ```sh
+  def CandidateCounter(candidate, datalist):
+    CandidateCount = 0
+    for vote in datalist:
+        if vote[2] == candidate:
+            CandidateCount += 1
+    return CandidateCount
+  ```
 
-To find out the greatest percentage and the least precentage and greatest total traded we came up with 6 new varialbes.
+## Find the winner and total votes. 
 
-* We are storing the value and ticker name of the parameters
+To find the winner, we will iterate through each candidate within unique candidate information and then find the name through index of the maximum vote count. To do this, we will first create a dictionary with unique candidate names and add voting information based on candidates to the dictionary. 
+
+* Generating and adding candidate voting information to dictionary
+    ```sh
+    CandidateInfo = {}
+    for candidate in UniqueCandidate(datalist):
+        CandidateCount = CandidateCounter(candidate,datalist)
+        PercentVote = (CandidateCount/totalvote)*100
+        StringConvert = "%.3f" % PercentVote + "%"
+        CandidateInfo[candidate] = [CandidateCount,StringConvert]
+    ```
+
+* Comparing candidate vote count to find the winner  
+    ```sh
+    def winner(CandidateDict):
+        winner = ''
+        winning_vote = 0
+        for candidate in CandidateDict:
+            if CandidateDict[candidate][0] > winning_vote:
+                winning_vote = CandidateDict[candidate][0]
+                winner = candidate
+        return winner
+    ```
+* Putting the rest of the information into the dictionary. 
+    ```sh
+    CandidateInfo['Winner'] = winner(CandidateInfo)
+    CandidateInfo['Total'] = totalvote
+    ```
+
+## Generate the summary table as a string.
+
+We for variables for each of the information we calculated before and map them into a string. 
+
+* Mapping the calculated value into the string. 
   ``` sh
-  Dim GreatestValue As Double
-  Dim GreatestPercent As Double
-  Dim GreatestDecrease As Double
-  Dim GreatestDecreaseTicker As String
-  Dim GreatestPercentTicker As String
-  Dim GreatestVolumeTicker As String
+  def parser(CandidateDict):
+    string = f'''
+        Election Results
+        -------------------------
+        Total Votes: {CandidateDict['Total']}
+        -------------------------
+        Khan: {CandidateDict['Khan'][1]} ({CandidateDict['Khan'][0]})
+        Correy: {CandidateDict['Correy'][1]} ({CandidateDict['Correy'][0]})
+        Li: {CandidateDict['Li'][1]} ({CandidateDict['Li'][0]})
+        O'Tooley: {CandidateDict["O'Tooley"][1]} ({CandidateDict["O'Tooley"][0]})
+        -------------------------
+        Winner: {CandidateDict['Winner']}
+        -------------------------
+        '''
+    return string
   ```
 
+## Generating the text file and terminal message with the summary table.
 
-* Set the variable values to 0
-  ``` sh
-  GreatestValue = 0
-  GreatestPercent = 0
-  GreatestDecrease = 0
+To generate the text file, we will be writing the string information into it.
+
+* Second error checking outside the conditional that triggers when unique value is found
+  ```sh
+  def analysis_gen(string, path):
+    with open (path,"w") as file1:
+            file1.write(string)
   ```
 
-We created a for loop for the summary table and compared our variables cell by cell and updating each variable appropriately.
-
-* We are storing the value and ticker name of the parameters
-  ``` sh
-  For Index = 2 To UniqueIndex
-    If GreatestDecrease > Range("K" & Index) Then
-      GreatestDecrease = Range("K" & Index)
-      GreatestDecreaseTicker = Range("I" & Index)
-    ElseIf GreatestVolume < Range("L" & Index) Then
-      GreatestVolume = Range("L" & Index)
-      GreatestVolumeTicker = Range("I" & Index)
-    ElseIf GreatestPercent < Range("K" & Index) Then
-      GreatestPercent = Range("K" & Index)
-      GreatestPercentTicker = Range("I" & Index)
-    End If    
-  ```
-
-After we extracted the max for percent change and total traded volume and min for percent change, we can return them to the bonus summary table
-
-* We are storing the value and ticker name of the parameters
-  ``` sh
-  For Index = 2 To UniqueIndex
-    If GreatestDecrease > Range("K" & Index) Then
-      GreatestDecrease = Range("K" & Index)
-      GreatestDecreaseTicker = Range("I" & Index)
-    ElseIf GreatestVolume < Range("L" & Index) Then
-      GreatestVolume = Range("L" & Index)
-      GreatestVolumeTicker = Range("I" & Index)
-    ElseIf GreatestPercent < Range("K" & Index) Then
-      GreatestPercent = Range("K" & Index)
-      GreatestPercentTicker = Range("I" & Index)
-    End If    
-  ```
-
-We can now return the extracted data to the correct column and rows of the bonus summary table.
-
-* return the values to the bonus summary table
-  ``` sh
-  Range("O2") = GreatestPercentTicker
-  Range("O3") = GreatestDecreaseTicker
-  Range("O4") = GreatestVolumeTicker
-  Range("P2") = GreatestPercent
-  Range("P3") = GreatestDecrease
-  Range("P4") = GreatestVolume
-  ```
-
-## Looping through all the worksheets
-
-Now we can create a for loop for each worksheet in the workbook and generate both summary tables for each sheet.
-
-``` sh 
-For Each Worksheet In Worksheets
-  Worksheet.Activate
-
-  **Macro**
-
-Next Worksheet
-```
-
-The worksheet cycle will have to be at the beginning of the macro and it would need to reset all the variables for each worksheet to start anew. 
-
-``` sh
-Ticker = ""
-YearlyChange = 0
-YearlyPercent = 0
-TickerVolume = 0
-ClosingPrice = 0
-UniqueIndex = 2
-```
-
-## Here are the results we obtained for each year starting with 2014 and ending in 2016
-
-The summary is divided to be the first page and the rest of the pages 
-
-* ![2014_single](https://github.com/HsuChe/VBA_challenge/blob/c9e2a66ad51906119fdb7dd9c91a165e5e314473/Images/2014_sample.JPG)
-* 2014 Summary table at [link](https://github.com/HsuChe/VBA_challenge/blob/803099075c2e4acfb71e760a7eb35840daa483a3/Images/2014_summary.pdf)
-* ![2015_single](https://github.com/HsuChe/VBA_challenge/blob/c9e2a66ad51906119fdb7dd9c91a165e5e314473/Images/2015_sample.JPG)
-* 2015 Summary table at [link](https://github.com/HsuChe/VBA_challenge/blob/803099075c2e4acfb71e760a7eb35840daa483a3/Images/2015_summary.pdf)
-* ![2016_single](https://github.com/HsuChe/VBA_challenge/blob/c9e2a66ad51906119fdb7dd9c91a165e5e314473/Images/2016_sample.JPG)
-* 2016 Summary table at [link](https://github.com/HsuChe/VBA_challenge/blob/803099075c2e4acfb71e760a7eb35840daa483a3/Images/2016_summary.pdf)
-
-
-# Conclusion
-
-This VBA homework assignment allows us to iterate through over 2 million rows of stocks and perform analysis on these information. This demonstrates the power of VBA to perform massive tasks while maintaining all the trappings of Microsoft Excel's GUI. It really is the best of both words. 
+## After everything is generated, we complete the PyBank portion of the assignment.
