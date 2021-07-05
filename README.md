@@ -299,4 +299,4 @@ To generate the text file, we will be writing the string information into it.
             file1.write(string)
   ```
 
-## After everything is generated, we complete the PyBank portion of the assignment.
+## After everything is generated, we complete the PyPoll portion of the assignment.
