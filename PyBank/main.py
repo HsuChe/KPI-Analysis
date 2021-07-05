@@ -64,7 +64,7 @@ def summary_table(list):
     return report
 
 
-# activationn functionn ----------------------------------------------
+# activationn function ----------------------------------------------
 def parse_csv():
     #parse the csv given the path
     with open(csv_path) as file:
