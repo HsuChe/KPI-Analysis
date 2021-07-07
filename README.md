@@ -23,11 +23,11 @@
 Month to month analysis is critical to making operating decisions. For this homework, we are going to generate commonly used business metrics based on the monthly financial information.
 
 Features of the dataset:
-* The dataset is divided primarily between three sheets for each of the years that are being analyzed, starting with 2014 and ending on 2016.
+* The dataset is divided primarily between three sheets for each of the years that are being analyzed, starting with 2014 and ending in 2016.
 * The following are columns provided by the dataset: 
     * Date: **The date that the information was generated**
     * Profit/Loss: **The profit and loss from a month before**
-* The dataset is in the csv file format with delimiter of comma
+* The dataset is in the csv file format with delimiter of comma.
 
 * Download Dataset click [HERE](https://github.com/HsuChe/python-challenge/blob/f3e0d54ab0d2365f8a35dd1a83ef981b05c49644/PyBank/Resources/budget_data.csv)
 
@@ -51,7 +51,7 @@ Open the csv with csv.reader() and using a for loop to iterate through each row 
     csv_list.append(row)
   ```
 
-After generating the csv list, find the total number of month being accounted for. To do this, we will find the index of the rows.
+After generating the csv list, find the total number of months being accounted for. To do this, we will find the index of the rows.
 
 * Finding the total month accounted for.
   ```sh
@@ -60,7 +60,7 @@ After generating the csv list, find the total number of month being accounted fo
 
 ### Finding the total net profit/loss
 
-To find the totla net profit / loss, we will be using a loop that will iterate through each row in the data list and add up all of the values from loss/profit column
+To find the totla net profit / loss, we will be using a loop that will iterate through each row in the data list and add up all of the values from loss/profit columns
 
 * Total Profit Function:
   ```sh
@@ -73,7 +73,7 @@ To find the totla net profit / loss, we will be using a loop that will iterate t
 
 ### Average month to month change.
 
-Next we find the average change month to month. The difference between the months will be put into a list.
+Next, we find the average change month to month. The difference between the months will be put into a list.
 
 * Headers for generated columns
   ```sh
@@ -90,7 +90,7 @@ Next we find the average change month to month. The difference between the month
 
 The average change in profit / loss is the sum of the change list divided by the length of the change list. 
 
-* Avearge change in profit and losses month to month  
+* Avearge change in profit and losses month to month.  
     ```sh
     def average_profit(change_list):
             average_change = sum(change_list) / len(change_list)
@@ -130,7 +130,7 @@ We for variables for each of the information we calculated before and map them i
 * Mapping the calculated value into the string. 
   ``` sh
   def summary_table(list):
-    # define the variables that will be used inn the summary table f' stringn
+    # Define the variables that will be used inn the summary table f' string
     total_month = len(list)
     net = total_profit(list)
     average_change = average_profit(month_change(list))
@@ -170,7 +170,7 @@ To generate the text file, we will be writing the string information into it.
 
 ![hero image](https://github.com/HsuChe/python-challenge/blob/f3e0d54ab0d2365f8a35dd1a83ef981b05c49644/Image/PyPoll_Hero.jpg)
 
-Visualizing and processing voting data is how we can find our the winner and calculate critical descriptions through analyzing polling data. 
+Visualizing and processing voting data is how we can find our winner and calculate critical descriptions through analyzing polling data. 
 
 Features of the dataset:
 * Voter ID: **The unique ID that each vote is identified by**
@@ -182,11 +182,11 @@ Features of the dataset:
 The homework is interested generating a few specific items for the summary table.
 
 * Total of votes casted
-* Percentage of the total vote each candidate recieved
+* Percentage of the total vote each candidate received.
 * Winner of the election.
 
 <!-- GETTING STARTED -->
-## Processing the csv and make it into a easier to use dataset.
+## Processing the csv and make it into an dataset that is easier to manipulate.
 
 Open the csv with csv.reader() and using a for loop to iterate through each row and adding them to a list.
 
@@ -220,9 +220,9 @@ To find the specific information for each candidate, the first step is to find t
     return UniqueList
   ```
 
-### Finding out the amount of votes each candidate recieved.
+### Finding out the amount of votes each candidate received.
 
-We can find out the amount of votes each candidate recieved based on unique candidate names.
+We can find out the amount of votes each candidate received based on unique candidate names.
 
 * Candidate vote counter:
   ```sh
